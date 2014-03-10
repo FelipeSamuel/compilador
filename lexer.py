@@ -13,6 +13,7 @@ palabras reservadas
 @var reserved diccionario
 '''
 reserved = {
+  'public'   : 'PUBLIC', 
   'class'    : 'CLASS',
   'extends'  : 'EXTENDS',
   'void'     : 'VOID',
@@ -73,6 +74,8 @@ tokens = [
             'IS_NOT_EQUAL', 
             'IS_IDENTICAL', 
             'IS_NOT_IDENTICAL',
+            'ASIGNACION',
+            'MOTHOD_ACCESS',
             #Delimitadores            
             'LPAREN', 
             'RPAREN', 
@@ -80,7 +83,9 @@ tokens = [
             'RBRACKET', 
             'LBRACE', 
             'RBRACE',             
-            'CONCAT'
+            'CONCAT',
+            'COMMA',
+            'SEMI'
             #
          ] + list(reserved.values())
 
@@ -435,6 +440,22 @@ def t_RBRACE(t):
   r'\}'
   return t
 
+def t_COMMA(t):
+  r','
+  return t
+
+def t_SEMI(t):
+    r';'
+    return t
+
+def t_ASIGNACION(t):
+    r'='
+    return t
+
+def t_MOTHOD_ACCESS(t):
+    r'\.'
+    return t
+
 '''
 def t_CONCAT(t):
   
@@ -476,7 +497,7 @@ def leer_archivo():
     cadenas de caracteres de cada linea en la intrada
     del analizador lexico
     '''
-    with open('archivos_prueba/tokens_simples.txt') as linea:
+    with open('archivos_prueba/codigo_fuente.txt') as linea:
         datos = linea.read()
         lexer.input(datos)
     '''
