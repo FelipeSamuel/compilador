@@ -42,24 +42,46 @@ datos que contiene las palabras reservadas
 '''
 tokens = [
             'LNR',
+            #numeros
             'NUMBER',
             'ENUMBER',
             'NUMBEREX',
+            #identificadores
             'ID',
             'NID',
+            #comentarios
             'BCOMMENT',
             'LCOMMENT',
             'ECOMMENT',
+            #cadenas de caracteres
             'CSTRING',
             'ECSTRING',
+            #operadores 
             'PLUS',
             'MINUS',
             'TIMES',
             'DIVIDE',
             'MODULE',
-            'ME'
-            'LPAREN',
-            'RPAREN'
+            'BOOLEAN_AND', 
+            'BOOLEAN_OR', 
+            'BOOLEAN_NOT',
+            'IS_SMALLER',
+            'IS_GREATER', 
+            'IS_SMALLER_OR_EQUAL', 
+            'IS_GREATER_OR_EQUAL', 
+            'IS_EQUAL',          
+            'IS_NOT_EQUAL', 
+            'IS_IDENTICAL', 
+            'IS_NOT_IDENTICAL',
+            #Delimitadores            
+            'LPAREN', 
+            'RPAREN', 
+            'LBRACKET', 
+            'RBRACKET', 
+            'LBRACE', 
+            'RBRACE',             
+            'CONCAT'
+            #
          ] + list(reserved.values())
 
 '''
@@ -291,6 +313,7 @@ debe reconocer las siguientes expresiones
 '''
 def t_ECSTRING(t):
     r'"([^\\"]|\\(.|\n))*|"{2,}'
+    t.lexer.lineno += t.value.count("\n")
     print "FATAL ERROR: La cadena de caracteres '%s' no esta cerrada linea %d columna %d" % (t.value, t.lexer.lineno, obtener_columna(t.lexer.lexdata, t))
     exit(0)
 
@@ -324,6 +347,7 @@ comentarios
 '''
 def t_ECOMMENT(t):
     r'/\*(.|\n|\r|\t)*?'
+    t.lexer.lineno += t.value.count("\n")
     print "FATAL ERROR: El bloque de comentario '%s' no esta cerrado linea %d columna %d" % (t.value, t.lexer.lineno, obtener_columna(t.lexer.lexdata, t))
     exit(0)
 
@@ -351,6 +375,42 @@ def t_MODULE(t):
   r'%'
   return t
 
+def t_BOOLEAN_AND(t):
+    r'&&'
+    return t
+
+def t_BOOLEAN_OR(t):
+    r'\|\|'
+    return t
+
+def t_IS_NOT_EQUAL(t):
+    r'!='
+    return t
+
+def t_BOOLEAN_NOT(t):
+    r'!'
+    return t
+
+def t_IS_SMALLER_OR_EQUAL(t):
+    r'<='
+    return t
+
+def t_IS_GREATER_OR_EQUAL(t):
+    r'>='
+    return t
+
+def t_IS_SMALLER(t):
+    r'<'
+    return t
+
+def t_IS_GREATER(t):
+    r'>'
+    return t
+
+def t_IS_EQUAL(t):
+    r'=='
+    return t
+
 def t_LPAREN(t):
   r'\('
   return t
@@ -359,6 +419,27 @@ def t_RPAREN(t):
   r'\)'
   return t
 
+def t_LBRACKET(t):
+  r'\['
+  return t
+
+def t_RBRACKET(t):
+  r'\]'
+  return t
+
+def t_LBRACE(t):
+  r'\{'
+  return t
+
+def t_RBRACE(t):
+  r'\}'
+  return t
+
+'''
+def t_CONCAT(t):
+  
+  return t
+'''
 
 # Define a rule so we can track line numbers
 def t_newline(t):
