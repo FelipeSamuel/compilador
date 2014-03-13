@@ -1,0 +1,10 @@
+##comentario de una sola linea
+
+//gfgfgfgf 67575 hfhgfhf
+
+##comentario en bloque
+
+/*
+	esto es un comentario en bloque realizado en
+	la fecha del 2014-03-09 a las 19.00
+ */

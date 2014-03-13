@@ -1,0 +1,6 @@
+##comentario no valido
+
+/*
+	este comentario da como resultato un error
+	fatal para el sistema
+ 

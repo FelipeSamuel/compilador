@@ -1,0 +1,11 @@
+##cadenas de caracteres
+
+"fsdfksfks"
+"\"fsdfksfks\"\"fsdfksfks\"\"fsdfksfks\""
+
+"sdfdsfdsfdsfsf
+fdsfsfsdfsfdsfd"
+
+"fdsfsfsdfsfdsfd   \" otra cadena \" fgdg
+	sdfsfsfsfsfs i8787	dfsf
+"

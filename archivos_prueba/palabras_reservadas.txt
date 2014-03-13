@@ -1,9 +1,18 @@
-65655  99999
-564
-5
-9
-+
-*
-rt 
-w7
-7p
+class
+extends
+void
+int
+boolean
+string
+return
+if
+else
+while
+break
+continue
+this
+new
+length
+true
+false
+null
