@@ -513,7 +513,7 @@ def leer_archivo():
     while True:
         tok = lexer.token()
         if not tok: break # Si no encuentra token's detiene las iteraciones
-        print "Tipo: %s Valor '%s' Fila %d Columna %d" %(tok.type, tok.value, tok.lineno, obtener_columna(tok.lexer.lexdata, tok))
+        #print "Tipo: %s Valor '%s' Fila %d Columna %d" %(tok.type, tok.value, tok.lineno, obtener_columna(tok.lexer.lexdata, tok))
 
 '''
 Funcion para determinar la columna donde se encuentra
