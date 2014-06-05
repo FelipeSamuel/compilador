@@ -1,4 +1,4 @@
-parser.out
 parsetab.py
-classParser.pyc
 lexer.pyc
+classParser.pyc
+parser.out
