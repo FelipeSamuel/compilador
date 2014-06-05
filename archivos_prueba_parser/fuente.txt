@@ -1,0 +1,11 @@
+class operaciones33 extends HOLA {	
+
+	int methodo (int hola34) {
+
+	}	
+}
+
+class operaciones33 extends HOLA {	
+
+	int hola_mundo, intero2;
+}

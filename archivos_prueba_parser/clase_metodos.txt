@@ -1,0 +1,19 @@
+class operaciones33 extends Hola{	
+	
+	int juan;	
+}
+
+class operaciones33 extends Hola{	
+	
+	int juan, cindy, oscar;	
+}
+
+class operaciones33 extends Hola{	
+	
+	int juan;	
+	int junio;
+
+	void holaa (){
+
+    }
+}

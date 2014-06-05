@@ -13,7 +13,7 @@ palabras reservadas
 @var reserved diccionario
 '''
 reserved = {
-  'public'   : 'PUBLIC', 
+  'public'   : 'PUBLIC',
   'class'    : 'CLASS',
   'extends'  : 'EXTENDS',
   'void'     : 'VOID',
@@ -57,33 +57,32 @@ tokens = [
             #cadenas de caracteres
             'CSTRING',
             'ECSTRING',
-            #operadores 
+            #operadores
             'PLUS',
             'MINUS',
             'TIMES',
             'DIVIDE',
             'MODULE',
-            'BOOLEAN_AND', 
-            'BOOLEAN_OR', 
+            'BOOLEAN_AND',
+            'BOOLEAN_OR',
             'BOOLEAN_NOT',
             'IS_SMALLER',
-            'IS_GREATER', 
-            'IS_SMALLER_OR_EQUAL', 
-            'IS_GREATER_OR_EQUAL', 
-            'IS_EQUAL',          
-            'IS_NOT_EQUAL', 
-            'IS_IDENTICAL', 
+            'IS_GREATER',
+            'IS_SMALLER_OR_EQUAL',
+            'IS_GREATER_OR_EQUAL',
+            'IS_EQUAL',
+            'IS_NOT_EQUAL',
+            'IS_IDENTICAL',
             'IS_NOT_IDENTICAL',
             'ASIGNACION',
-            'MOTHOD_ACCESS',
-            #Delimitadores            
-            'LPAREN', 
-            'RPAREN', 
-            'LBRACKET', 
-            'RBRACKET', 
-            'LBRACE', 
-            'RBRACE',             
-            'CONCAT',
+            'METHOD_ACCESS',
+            #Delimitadores
+            'LPAREN',
+            'RPAREN',
+            'LBRACKET',
+            'RBRACKET',
+            'LBRACE',
+            'RBRACE',            
             'COMMA',
             'SEMI'
             #
@@ -452,15 +451,9 @@ def t_ASIGNACION(t):
     r'='
     return t
 
-def t_MOTHOD_ACCESS(t):
+def t_METHOD_ACCESS(t):
     r'\.'
     return t
-
-'''
-def t_CONCAT(t):
-  
-  return t
-'''
 
 # Define a rule so we can track line numbers
 def t_newline(t):
@@ -544,4 +537,4 @@ lexer = lex.lex()
 Llamada inicial para comenzar a leer los token's
 del archivo
 '''
-leer_archivo()
+#leer_archivo()

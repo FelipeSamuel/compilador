@@ -1,0 +1,3 @@
+class operaciones33 extends Hola{	
+
+}

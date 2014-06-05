@@ -1,0 +1,9 @@
+class Example {
+
+    int variable1;
+
+
+    void holaa(){
+    	int hh = 45;
+    }
+}

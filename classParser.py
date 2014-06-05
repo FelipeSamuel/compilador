@@ -1,220 +1,453 @@
 class Nodo:
-	'''docstring for Node'''
+	'''Nodo raiz'''
 	pass
 
 class Programa(Nodo):
 	'''Programa se compone de una lista de declaraciones'''
-	def __init__(self, listaDeclaraciones):
-		self.listaDeclaraciones = listaDeclaraciones
-		self.name               = "Programa"
+	def __init__(self, ListaDeclaraciones):
+		self.nombre               = "Programa"
+		self.ListaDeclaraciones = ListaDeclaraciones
 
-	def imprimir(self):
-		print 'axioma'
-		self.listaDeclaraciones.imprimir()
+	def imprimir(self,espacio):
+		print 'Programa'
+		self.ListaDeclaraciones.imprimir(espacio+' ')
 
-class ListaDeclaracion(Nodo):
+class ListaDeclaraciones(Nodo):
 	"""Lista las declaraciones de clases dentro del codigo fuente"""
-	def __init__(self, declaracionClase, listaDeclaraciones):
-		self.declaracionClase   = declaracionClase
-		self.listaDeclaraciones = listaDeclaraciones
-		self.name               = "ListaDeclaracion"
+	def __init__(self, DeclaracionClase, ListaDeclaraciones):
+		self.nombre 		    = "Declaracion de Clase"
+		self.DeclaracionClase   = DeclaracionClase
+		self.ListaDeclaraciones = ListaDeclaraciones		
 
-	def imprimir(self):
-		print 'Lista de declaraciones'
-		self.declaracionClase.imprimir()
-		self.listaDeclaraciones.imprimir()
-
-class ListaDeclaracionNull(Nodo):
-	'''Termina con la recursividad de la lista de declaraciones'''
-	def __init__(self):
-		self.name = "Null"
-
-	def imprimir(self):
-		print "Lista de declaraciones Null"
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.DeclaracionClase.imprimir(espacio+' ')		
+		self.ListaDeclaraciones.imprimir(espacio+' ')
 
 class DeclaracionClase(Nodo):
 	'''Representacion de las clases'''
-	def __init__(self, identificador, declaracionExtenciones, cuerpoClase):
-		self.name                   = identificador
-		self.declaracionExtenciones = declaracionExtenciones
-		self.cuerpoClase            = cuerpoClase
+	def __init__(self, nombre, DeclaracionExtenciones, CuerpoClase):
+		self.nombre 				= nombre
+		self.DeclaracionExtenciones = DeclaracionExtenciones
+		self.CuerpoClase            =CuerpoClase
+		#self.ListaDeclaraciones     = ListaDeclaraciones
 
-	def imprimir(self):
-		print "declaracion de la clase"
-		self.declaracionExtenciones.imprimir()
-		self.cuerpoClase.imprimir()
-
-class Identificador(Nodo):
-	'''Optiene el identificador o nombre de las clases, atributos, metodos, etc'''
-	def __init__(self, name, lineno):
-		self.name   = name
-		self.lineno = lineno
-
-	def imprimir(self):
-		print "id"
+	def imprimir(self,espacio):
+		print espacio+"Clase "+self.nombre
+		self.DeclaracionExtenciones.imprimir(espacio+' ')
+		self.CuerpoClase.imprimir(espacio+' ')
+		#self.ListaDeclaraciones.imprimir(espacio+' ')
 
 class DeclaracionExtenciones(Nodo):
 	'''Se declaran los extens del lenguaje'''
-	def __init__(self, name):
-		self.name = name
+	def __init__(self, nombre):
+		self.nombre = nombre
 
-	def imprimir(self):
-		print "declaracion de los extens"
+	def imprimir(self,espacio):
+		print espacio+"extenciones "+self.nombre
 
-class DeclaracionExtencionesNull(Nodo):
-	'''Lista de extenciones vacia'''
-	def __init__(self):
-		self.name = "Null"
+class CuerpoClase(Nodo):
+	'''Declaracion del Cuerpo de una clase'''
+	def __init__(self, ListaAtribMetod):
+		self.nombre    = "clase"
+		self.ListaAtribMetod = ListaAtribMetod
 
-	def imprimir(self):
-		print "Lista de extenciones Null"
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.ListaAtribMetod.imprimir(espacio+' ')
 
-class CuerpoClaseAtributo(Nodo):
-	'''Declaracion de los atributos de la clase'''
-	def __init__(self, atributos):
-		self.name      = "atributos"
-		self.atributos = atributos
+class ListaAtribMetod(Nodo):	
+	def __init__(self, Declaraciones):
+		self.nombre    = "cuerpo clase"
+		self.Declaraciones = Declaraciones
 
-	def imprimir(self):
-		print 'Atributos'
-		self.atributos.imprimir()
-
-class CuerpoClaseMetodo(Nodo):
-	'''Declaracion de los metodos de la clase'''
-	def __init__(self, metodos):
-		self.name      = "metodos"
-		self.metodos = metodos
-
-	def imprimir(self):
-		print 'Metodos'
-		self.metodos.imprimir()
-
-class CuerpoClaseNull(Nodo):
-	'''declaracion del cuerpo de las clases'''
-	def __init__(self):
-		self.name = "Null"
-
-	def imprimir(self):
-		print "Cuerpo de la clase Null"
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.Declaraciones.imprimir(espacio+' ')
 
 class DeclaracionAtributos(Nodo):
-	'''Declaracion de lista de atributos'''
-	def  __init__(self, atributos, tipo, name):
-		self.name 	   = name
-		self.tipo      = tipo
-		self.atributos = atributos
+	def __init__(self, nombre, ListaAtributos,DeclaracionAtributos):
+		self.nombre 			  = nombre
+		self.ListaAtributos 	  = ListaAtributos
+		self.DeclaracionAtributos = DeclaracionAtributos
 
-	def imprimir(self):
-		print "Lista de atributos"
-		self.tipo.imprimir()
-		self.atributos.imprimir()
+	def imprimir(self,espacio):
+		print espacio+"Atributo "+self.nombre
+		self.ListaAtributos.imprimir(espacio+' ')
+		self.DeclaracionAtributos.imprimir(espacio+' ')
 
-class DeclaracionAtributo(Nodo):
-	'''Declaracion de atributo'''
-	def  __init__(self, tipo, name):
-		self.name 	   = name
-		self.tipo      = tipo
+class ListaAtributos(Nodo):
+	def __init__(self, nombre, ListaAtributos):
+		self.nombre 		= nombre
+		self.ListaAtributos = ListaAtributos
 
-	def imprimir(self):
-		print "Atributo"
-		self.tipo.imprimir()
-		self.name.imprimir()
-
-class DeclaracionAtributoNull(Nodo):
-	'''Declaracion vacia de atributos'''
-	def  __init__(self):
-		self.name 	   = "Null"
-
-	def imprimir(self):
-		print "Declaracion de atributos vacia"
+	def imprimir(self,espacio):
+		print espacio+"Atributo "+self.nombre
+		self.ListaAtributos.imprimir(espacio+' ')
 
 class DeclaracionMetodos(Nodo):
-	'''Declaracion de metodos'''
-	def __init__(self, tipo, identificador, argumentos, cuerpo):
-		self.nombre = identificador
-		self.tipo   = tipo
-		self.argumentos = argumentos
-		self.cuerpo 	= cuerpo
 
-	def imprimir(self):
-		print "metodo "+self.nombre
+	def __init__(self, TipoRetorno,nombre,Argumetos,CuerpoMetodo):
+		self.nombre       = nombre
+		self.TipoRetorno  = TipoRetorno
+		self.Argumetos 	  = Argumetos
+		self.CuerpoMetodo = CuerpoMetodo
 
+	def imprimir(self,espacio):
+		print espacio+"Metodo "+self.nombre
+		self.TipoRetorno.imprimir(espacio+' ')
+		self.Argumetos.imprimir(espacio+' ')
+		self.CuerpoMetodo.imprimir(espacio+' ')
 
-class DeclaracionMetodosNull(Nodo):
-	'''Declaracion vacia de metodos'''
-	def __init__(self):
-		self.name = "Null"
+class TipoRetorno(Nodo):
 
-	def imprimir(self):
-		print "Declaracion vacia de metodos"
+	def __init__(self, Retorno):
+		self.nombre  = "Retorno del Metodo"
+		self.Retorno = Retorno
 
+	def imprimir(self,espacio):
+		print espacio+"Retorno del Metodo"
+		self.Retorno.imprimir(espacio+' ')
 
-class Argumentos(Nodo):
-	'''Declaracion de argumentos de metodos'''
-	def __init__(self, argumentos, tipo, identificador):
-		self.name 		= identificador
-		self.tipo 		= tipo
-		self.argumentos = argumentos
+class Argumetos(Nodo):
+	def __init__(self, tipo, nombre, ListaArgumentos):
+		self.nombre 		 = nombre
+		self.tipo   		 = tipo
+		self.ListaArgumentos = ListaArgumentos
 
-	def imprimir(self):
-		print 'Argumentos del metodo '+self.identificador
-		self.tipo.imprimir()
-		self.argumentos.imprimir()
+	def imprimir(self,espacio):
+		print espacio+"Argumeto "+self.nombre
+		self.tipo.imprimir(espacio+' ')
+		self.ListaArgumentos.imprimir(espacio+' ')
 
-class Argumento(Nodo):
-	'''Declaracion de un solo argumento'''
-	def __init__(self, tipo, identificador):
-		self.name = identificador
-		self.tipo = tipo
+class ListaArgumentos(Nodo):
+	def __init__(self, tipo,nombre,ListaArgumentos):
+		self.nombre 		 = nombre
+		self.tipo   		 = tipo
+		self.ListaArgumentos = ListaArgumentos
 
-	def imprimir(self):
-		print "Argumento del metodo "+self.name
-		self.tipo.imprimir()
-
-class ArgumentosNull(Nodo):
-	'''Declaracion vacia de argumentos'''
-	def __init__(self):
-		self.name = "Null"
-
-	def imprimir(self):
-		print "Declaracion vacia de argumentos"
+	def imprimir(self,espacio):
+		print espacio+"ListaArgumentos ".nombre
+		self.tipo.imprimir(espacio+' ')
+		self.ListaArgumentos.imprimir(espacio+' ')
 
 class CuerpoMetodo(Nodo):
-	'''Cuerpo del metodo'''
-	def __init__(self, variable, sentencias):		
-		self.name       = "cuerpo del metodo"
-		self.variable   = variable
-		self.sentencias = sentencias
+	def __init__(self, DeclaracionVariables, DeclaracionSentencias):
+		self.nombre                = "Cuerpo del Metodo"
+		self.DeclaracionVariables  = DeclaracionVariables
+		self.DeclaracionSentencias = DeclaracionSentencias
 
-	def imprimir(self):
-		print "Cuerpo del metodo"
-		self.variable.imprimir()
-		self.sentencias,imprimir()
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.DeclaracionVariables.imprimir(espacio+' ')
+		self.DeclaracionSentencias.imprimir(espacio+' ')
 
-class CuerpoMetodoNull(Nodo):
-	'''Cuerpo vacio del metodo'''
+class DeclaracionVariables(Nodo):
+	def __init__(self, tipo, nombre, Inicializacion, ListaDeclaracionVariables):
+		self.nombre                    = nombre
+		self.tipo                      = tipo
+		self.Inicializacion            = Inicializacion
+		self.ListaDeclaracionVariables = ListaDeclaracionVariables
+
+	def imprimir(self,espacio):
+		print espacio+"Declaracion variable "+self.nombre
+		self.tipo.imprimir(espacio+' ')
+		self.Inicializacion.imprimir(espacio+' ')
+		self.ListaDeclaracionVariables.imprimir(espacio+' ')
+
+class ListaDeclaracionVariables(Nodo):
+	def __init__(self, tipo, nombre, Inicializacion, ListaDeclaracionVariables):
+		self.nombre 				   = nombre
+		self.tipo   				   = tipo
+		self.Inicializacion            = Inicializacion
+		self.ListaDeclaracionVariables = ListaDeclaracionVariables
+
+	def imprimir(self,espacio):
+		print espacio+"Declaracion variable "+self.nombre
+		self.tipo.imprimir(espacio+' ')
+		self.Inicializacion.imprimir(espacio+' ')
+		self.ListaDeclaracionVariables.imprimir(espacio+' ')
+
+class DeclaracionSentenciasAsignacion(Nodo):
+	def __init__(self, Asignacion):
+		self.nombre 	= "Sentancia de Asignacion"
+		self.Asignacion = Asignacion
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.Asignacion.imprimir(espacio+' ')
+
+class DeclaracionSentenciasInvocar(Nodo):
+	def __init__(self, Invocar):
+		self.nombre 	= "Sentancia de Invocar"
+		self.Invocar = Invocar
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.Invocar.imprimir(espacio+' ')
+
+class DeclaracionSentenciasRetorno(Nodo):
+	def __init__(self, Expresion):
+		self.nombre    = "Sentancia de Retorno"
+		self.Expresion = Expresion
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.Expresion.imprimir(espacio+' ')
+
+class DeclaracionSentenciasIf(Nodo):
+	def __init__(self, Expresion, DeclaracionSentencias, SentenciaElse):
+		self.nombre                = "Sentancia de If"
+		self.Expresion             = Expresion
+		self.DeclaracionSentencias = DeclaracionSentencias
+		self.SentenciaElse         = SentenciaElse
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.Expresion.imprimir(espacio+' ')
+		self.DeclaracionSentencias.imprimir(espacio+' ')
+		self.SentenciaElse.imprimir(espacio+' ')
+
+class DeclaracionSentenciasWhile(Nodo):
+	def __init__(self, Expresion, DeclaracionSentencias):
+		self.nombre                = "Sentancia de While"
+		self.Expresion             = Expresion
+		self.DeclaracionSentencias = DeclaracionSentencias
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.Expresion.imprimir(espacio+' ')
+		self.DeclaracionSentencias.imprimir(espacio+' ')
+
+class DeclaracionSentenciasBreak(Nodo):
+	def __init__(self):
+		self.nombre = "Sentancia de Break"
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+
+class DeclaracionSentenciasContinue(Nodo):
+	def __init__(self):
+		self.nombre = "Sentancia de Continue"
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+
+class Asignacion(Nodo):
+	def __init__(self,Ubicacion,Expresion):
+		self.nombre    = "Asignacion"
+		self.Ubicacion = Ubicacion
+		self.Expresion = Expresion
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.Ubicacion.imprimir(espacio+' ')
+		self.Expresion.imprimir(espacio+' ')
+
+class UbicacionId(Nodo):
+	def __init__(self,nombre):
+		self.nombre = nombre
+
+	def imprimir(self,espacio):
+		print espacio+"Ubicacion "+self.nombre
+
+class UbicacionPuntero(Nodo):
+	def __init__(self,Expresion,nombre):
+		self.nombre    = nombre
+		self.Expresion = Expresion
+
+	def imprimir(self,espacio):
+		print espacio+"Ubicacion puntero "+self.nombre
+		self.Expresion.imprimir(espacio+' ')
+
+class UbicacionExpresion(Nodo):
+	def __init__(self,Expresion1,Expresion2):
+		self.nombre    = "Ubicacion Expresiones"
+		self.Expresion1 = Expresion1
+		self.Expresion2 = Expresion2
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.Expresion1.imprimir(espacio+' ')
+		self.Expresion2.imprimir(espacio+' ')
+
+class Invocar(Nodo):
+	def __init__(self,Metodo,Parametros):
+		self.nombre     = "Invocar"
+		self.Metodo     = Metodo
+		self.Parametros = Parametros
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.Metodo.imprimir(espacio+' ')
+		self.Parametros.imprimir(espacio+' ')
+
+class Metodo(Nodo):
+	def __init__(self,nombre):
+		self.nombre     = nombre
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+
+class MetodoExpresiones(Nodo):
+	def __init__(self,Expresion, nombre):
+		self.nombre    = nombre
+		self.Expresion = Expresion
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.Expresion.imprimir(espacio+' ')
+
+class Parametros(Nodo):
+	def __init__(self,Expresion, ListaParametros):
+		self.nombre    		 = "Parametros"
+		self.Expresion 		 = Expresion
+		self.ListaParametros = ListaParametros
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.Expresion.imprimir(espacio+' ')
+		self.ListaParametros.imprimir(espacio+' ')
+
+class SentenciaElse(Nodo):
+	def __init__(self,DeclaracionSentencias):
+		self.nombre    		       = "Sentencia Else"
+		self.DeclaracionSentencias = DeclaracionSentencias
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.DeclaracionSentencias.imprimir(espacio+' ')
+
+class Expresion(Nodo):
+	def __init__(self,TipoExpresion):
+		self.nombre    	   = "Expresion"
+		self.TipoExpresion = TipoExpresion
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.TipoExpresion.imprimir(espacio+' ')
+
+class ExpresionInstancia(Nodo):
+	def __init__(self,nombre):
+		self.nombre    	   = nombre
+
+	def imprimir(self,espacio):
+		print espacio+"Instancia a clases"+self.nombre
+
+class ExpresionArray(Nodo):
+	def __init__(self,Tipo,Expresion):
+		self.nombre    = "Inicia array"
+		self.Tipo 	   = Tipo
+		self.Expresion = Expresion
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.Tipo.imprimir(espacio+' ')
+		self.Expresion.imprimir(espacio+' ')
+
+
+class ExpresionAccesoMetodo(Nodo):
+	def __init__(self,Expresion):
+		self.nombre    = "Acceso Metodo"
+		self.Expresion = Expresion
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.Expresion.imprimir(espacio+' ')
+
+class ExpresionBinaria(Nodo):
+	def __init__(self,Expresion1, OperadorBinario, Expresion2):
+		self.nombre    		 = "Expresion Binaria"
+		self.Expresion1 	 = Expresion1
+		self.OperadorBinario = OperadorBinario
+		self.Expresion2 	 = Expresion2
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.Expresion1.imprimir(espacio+' ')
+		self.OperadorBinario.imprimir(espacio+' ')
+		self.Expresion2.imprimir(espacio+' ')
+
+class ExpresionUnaria(Nodo):
+	def __init__(self,OperadorUnario, Expresion):
+		self.nombre    		 = "Expresion Unaria"
+		self.OperadorUnario = OperadorUnario
+		self.Expresion 	 = Expresion
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.OperadorUnario.imprimir(espacio+' ')
+		self.Expresion.imprimir(espacio+' ')
+
+class ExpresionCompuesta(Nodo):
+	def __init__(self,Expresion):
+		self.nombre    		 = "Expresion Compuesta"
+		self.Expresion 	 = Expresion
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.Expresion.imprimir(espacio+' ')
+
+class OperadorBinario(Nodo):
+	def __init__(self,Operador):
+		self.nombre   = "Operador Binario"
+		self.Operador = Operador
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		print espacio+self.Operador
+
+class OperadorUnario(Nodo):
+	def __init__(self,Operador):
+		self.nombre   = "Operador Unario"
+		self.Operador = Operador
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		print espacio+self.Operador
+
+class Literales(Nodo):
+	def __init__(self,Literal):
+		self.nombre   = "Literal"
+		self.Literal = Literal
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		print espacio+self.Literal
+
+class Tipo(Nodo):
+	def __init__(self,argumento):
+		self.nombre   = "Tipo"
+		self.argumento = argumento
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		print espacio+self.argumento
+
+class TipoCompuesto(Nodo):
+	def __init__(self,Tipo):
+		self.nombre   = "Tipo Compuesto"
+		self.Tipo = Tipo
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.Tipo.imprimir(espacio+' ')
+
+class Inicializacion(Nodo):
+	def __init__(self,Expresion):
+		self.nombre   = "Inicializacion"
+		self.Expresion = Expresion
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.Expresion.imprimir(espacio+' ')
+
+
+
+class DeclaracionesNull(Nodo):
+	'''Se envian todas las produccines que producen landa'''
 	def __init__(self):
 		self.name = "Null"
 
-	def imprimir(self):
-		print "Cuerpo vacio del metodo"
-		
-		
-
-class Type(Nodo):
-	'''Tipos de datos'''
-	def __init__(self, tipo):
-		self.tipo = tipo
-		self.name = "tipo"
-
-	def imprimir(self):
-		print "tipo"
-		self.tipo.imprimir();
-
-class TypeNull(Nodo):
-	'''Tipo vacion'''
-	def __init__(self):
-		self.name = "Null"
-
-	def imprimir(self):
-		print "Tipo vacio"
+	def imprimir(self,espacio):
+		print espacio+self.name

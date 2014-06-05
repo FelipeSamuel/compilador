@@ -1,0 +1,53 @@
+##NUMEROS INVALIDOS
+
+##numeros con 2 o mas ceros"0" a la izquierda
+
+00000000
+-000000
+000004545
+-000056
+0000.985600
+-000000.4535343
+
+##numeros con 2 o mas signos negatos "-"
+
+-----000000
+---56
+---000056
+0---556
+00000---556
+000565600---55600
+000565600---00000---55600
+--34434----453000--0000
+
+##numeros con 2 o mas puntos flotantes "." o que terminen en punto
+
+....32
+-...9776
+----.78
+----....90
+----....000090
+545....5454
+676.65656.66565
+##65656.
+87878.....
+
+
+##numeros con 2 o mas exponenciales "E" o que terminen solo en exponencial E
+
+536-E
+5878-EEE
+-536-E
+-5878-EEE
+58899---E
+-23443-E
+5878-EEE
+-58899---E
+58000---EEE
+00000078-E
+5878-EEE
+58899---E
+58000---EEE
+---3434-E
+---000.075.75-E
+---000...07575-EEE----....90
