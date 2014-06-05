@@ -2,3 +2,4 @@ parsetab.py
 lexer.pyc
 classParser.pyc
 parser.out
+parsetab.pyc
