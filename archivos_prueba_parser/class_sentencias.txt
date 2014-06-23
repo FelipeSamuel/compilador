@@ -1,9 +1,18 @@
 class Example {
 
-    int variable1;
+	int juan, cindy, oscar;
 
-
-    void holaa(){
+	void holaa(){
     	int hh = 45;
     }
+
+    int holaa(int juan){
+    	int hh = 45;
+    }
+
+    int declaracion(int juan){
+
+    }
+
+
 }

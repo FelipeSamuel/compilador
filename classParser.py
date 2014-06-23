@@ -9,20 +9,26 @@ class Programa(Nodo):
 		self.ListaDeclaraciones = ListaDeclaraciones
 
 	def imprimir(self,espacio):
-		print 'Programa'
+		print self.nombre
 		self.ListaDeclaraciones.imprimir(espacio+' ')
+
+	def aceptar(self, visitante):
+		return visitante.vPrograma(self)
 
 class ListaDeclaraciones(Nodo):
 	"""Lista las declaraciones de clases dentro del codigo fuente"""
 	def __init__(self, DeclaracionClase, ListaDeclaraciones):
 		self.nombre 		    = "Declaracion de Clase"
 		self.DeclaracionClase   = DeclaracionClase
-		self.ListaDeclaraciones = ListaDeclaraciones		
+		self.ListaDeclaraciones = ListaDeclaraciones
 
 	def imprimir(self,espacio):
 		print espacio+self.nombre
-		self.DeclaracionClase.imprimir(espacio+' ')		
+		self.DeclaracionClase.imprimir(espacio+' ')
 		self.ListaDeclaraciones.imprimir(espacio+' ')
+
+	def aceptar(self, visitante):
+		return visitante.vListaDeclaraciones(self)
 
 class DeclaracionClase(Nodo):
 	'''Representacion de las clases'''
@@ -30,33 +36,70 @@ class DeclaracionClase(Nodo):
 		self.nombre 				= nombre
 		self.DeclaracionExtenciones = DeclaracionExtenciones
 		self.CuerpoClase            =CuerpoClase
-		#self.ListaDeclaraciones     = ListaDeclaraciones
 
 	def imprimir(self,espacio):
 		print espacio+"Clase "+self.nombre
 		self.DeclaracionExtenciones.imprimir(espacio+' ')
 		self.CuerpoClase.imprimir(espacio+' ')
-		#self.ListaDeclaraciones.imprimir(espacio+' ')
+
+	def aceptar(self, visitante):
+		return visitante.vDeclaracionClase(self)
 
 class DeclaracionExtenciones(Nodo):
 	'''Se declaran los extens del lenguaje'''
 	def __init__(self, nombre):
-		self.nombre = nombre
-
-	def imprimir(self,espacio):
-		print espacio+"extenciones "+self.nombre
-
-class CuerpoClase(Nodo):
-	'''Declaracion del Cuerpo de una clase'''
-	def __init__(self, ListaAtribMetod):
-		self.nombre    = "clase"
-		self.ListaAtribMetod = ListaAtribMetod
+		self.nombre = 'extencion '+nombre
 
 	def imprimir(self,espacio):
 		print espacio+self.nombre
-		self.ListaAtribMetod.imprimir(espacio+' ')
 
-class ListaAtribMetod(Nodo):	
+	def aceptar(self, visitante):
+		return visitante.vDeclaracionExtenciones(self)
+
+class CuerpoClase(Nodo):
+	'''Declaracion del Cuerpo de una clase'''
+	def __init__(self, ListaCuerpoClase, CuerpoClase):
+		self.nombre           = "Cuerpo Clase"
+		self.ListaCuerpoClase = ListaCuerpoClase
+		self.CuerpoClase      = CuerpoClase
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		self.ListaCuerpoClase.imprimir(espacio+' ')
+		self.CuerpoClase.imprimir(espacio+' ')
+
+	def aceptar(self, visitante):
+		return visitante.vCuerpoClase(self)
+
+
+class CuerpoClaseAtributos(Nodo):
+
+	def __init__(self, DeclaracionAtributos):
+		self.nombre               = 'Declaracion Atributos'
+		self.DeclaracionAtributos = DeclaracionAtributos
+
+	def imprimir(self, espacio):
+		print espacio+self.nombre
+		self.DeclaracionAtributos.imprimir(espacio+' ')
+
+	def aceptar(self, visitante):
+		return visitante.vCuerpoClaseAtributos(self)
+
+class CuerpoClaseMetodos(Nodo):
+
+	def __init__(self, DeclaracionMetodos):
+		self.nombre             = 'Declaracion Metodos'
+		self.DeclaracionMetodos = DeclaracionMetodos
+
+	def imprimir(self, espacio):
+		print espacio+self.nombre
+		self.DeclaracionMetodos.imprimir(espacio+' ')
+
+	def aceptar(self, visitante):
+		return visitante.vCuerpoClaseMetodos(self)
+
+
+class ListaAtribMetod(Nodo):
 	def __init__(self, Declaraciones):
 		self.nombre    = "cuerpo clase"
 		self.Declaraciones = Declaraciones
@@ -64,6 +107,9 @@ class ListaAtribMetod(Nodo):
 	def imprimir(self,espacio):
 		print espacio+self.nombre
 		self.Declaraciones.imprimir(espacio+' ')
+
+	def aceptar(self, visitante):
+		return visitante.vListaAtribMetod(self)
 
 class DeclaracionAtributos(Nodo):
 	def __init__(self, nombre, ListaAtributos,DeclaracionAtributos):
@@ -76,16 +122,39 @@ class DeclaracionAtributos(Nodo):
 		self.ListaAtributos.imprimir(espacio+' ')
 		self.DeclaracionAtributos.imprimir(espacio+' ')
 
+	def aceptar(self, visitante):
+		return visitante.vDeclaracionAtributos(self)
+
 class ListaAtributos(Nodo):
 	def __init__(self, nombre, ListaAtributos):
-		self.nombre 		= nombre
+		self.nombre 		= "Atributo "+nombre
 		self.ListaAtributos = ListaAtributos
 
 	def imprimir(self,espacio):
-		print espacio+"Atributo "+self.nombre
+		print espacio+self.nombre
 		self.ListaAtributos.imprimir(espacio+' ')
 
+	def aceptar(self, visitante):
+		return visitante.vListaAtributos(self)
+
 class DeclaracionMetodos(Nodo):
+
+	def __init__(self, TipoRetorno,nombre,Argumetos,CuerpoMetodo):
+		self.nombre       = "Metodo "+nombre
+		self.TipoRetorno  = TipoRetorno
+		self.Argumetos 	  = Argumetos
+		self.CuerpoMetodo = CuerpoMetodo
+
+	def imprimir(self,espacio):
+		print espacio+self.nombre
+		#self.TipoRetorno.imprimir(espacio+' ')
+		self.Argumetos.imprimir(espacio+' ')
+		self.CuerpoMetodo.imprimir(espacio+' ')
+
+	def aceptar(self, visitante):
+		return visitante.vDeclaracionMetodos(self)
+
+class DeclaracionMetodosVoid(Nodo):
 
 	def __init__(self, TipoRetorno,nombre,Argumetos,CuerpoMetodo):
 		self.nombre       = nombre
@@ -95,11 +164,14 @@ class DeclaracionMetodos(Nodo):
 
 	def imprimir(self,espacio):
 		print espacio+"Metodo "+self.nombre
-		self.TipoRetorno.imprimir(espacio+' ')
+		print espacio+self.TipoRetorno
 		self.Argumetos.imprimir(espacio+' ')
 		self.CuerpoMetodo.imprimir(espacio+' ')
 
-class TipoRetorno(Nodo):
+	def aceptar(self, visitante):
+		return visitante.vDeclaracionMetodosVoid(self)
+
+"""clad(Nodo):
 
 	def __init__(self, Retorno):
 		self.nombre  = "Retorno del Metodo"
@@ -107,7 +179,11 @@ class TipoRetorno(Nodo):
 
 	def imprimir(self,espacio):
 		print espacio+"Retorno del Metodo"
-		self.Retorno.imprimir(espacio+' ')
+		self.Retorno.imprimir(espacio+' ')	
+
+	def aceptar(self, visitante):
+		return visitante.vTipoRetorno(self)
+"""
 
 class Argumetos(Nodo):
 	def __init__(self, tipo, nombre, ListaArgumentos):
@@ -120,6 +196,9 @@ class Argumetos(Nodo):
 		self.tipo.imprimir(espacio+' ')
 		self.ListaArgumentos.imprimir(espacio+' ')
 
+	def aceptar(self, visitante):
+		return visitante.vArgumetos(self)
+
 class ListaArgumentos(Nodo):
 	def __init__(self, tipo,nombre,ListaArgumentos):
 		self.nombre 		 = nombre
@@ -130,6 +209,9 @@ class ListaArgumentos(Nodo):
 		print espacio+"ListaArgumentos ".nombre
 		self.tipo.imprimir(espacio+' ')
 		self.ListaArgumentos.imprimir(espacio+' ')
+
+	def aceptar(self, visitante):
+		return visitante.vListaArgumentos(self)
 
 class CuerpoMetodo(Nodo):
 	def __init__(self, DeclaracionVariables, DeclaracionSentencias):
@@ -142,31 +224,40 @@ class CuerpoMetodo(Nodo):
 		self.DeclaracionVariables.imprimir(espacio+' ')
 		self.DeclaracionSentencias.imprimir(espacio+' ')
 
+	def aceptar(self, visitante):
+		return visitante.vCuerpoMetodo(self)
+
 class DeclaracionVariables(Nodo):
 	def __init__(self, tipo, nombre, Inicializacion, ListaDeclaracionVariables):
-		self.nombre                    = nombre
+		self.nombre                    = "Declaracion variable "+nombre
 		self.tipo                      = tipo
 		self.Inicializacion            = Inicializacion
 		self.ListaDeclaracionVariables = ListaDeclaracionVariables
 
 	def imprimir(self,espacio):
-		print espacio+"Declaracion variable "+self.nombre
+		print espacio+self.nombre
 		self.tipo.imprimir(espacio+' ')
 		self.Inicializacion.imprimir(espacio+' ')
 		self.ListaDeclaracionVariables.imprimir(espacio+' ')
 
+	def aceptar(self, visitante):
+		return visitante.vDeclaracionVariables(self)
+
 class ListaDeclaracionVariables(Nodo):
 	def __init__(self, tipo, nombre, Inicializacion, ListaDeclaracionVariables):
-		self.nombre 				   = nombre
+		self.nombre 				   = "Declaracion variable "+nombre
 		self.tipo   				   = tipo
 		self.Inicializacion            = Inicializacion
 		self.ListaDeclaracionVariables = ListaDeclaracionVariables
 
 	def imprimir(self,espacio):
-		print espacio+"Declaracion variable "+self.nombre
+		print espacio+self.nombre
 		self.tipo.imprimir(espacio+' ')
 		self.Inicializacion.imprimir(espacio+' ')
 		self.ListaDeclaracionVariables.imprimir(espacio+' ')
+
+	def aceptar(self, visitante):
+		return visitante.vListaDeclaracionVariables(self)
 
 class DeclaracionSentenciasAsignacion(Nodo):
 	def __init__(self, Asignacion):
@@ -177,6 +268,9 @@ class DeclaracionSentenciasAsignacion(Nodo):
 		print espacio+self.nombre
 		self.Asignacion.imprimir(espacio+' ')
 
+	def aceptar(self, visitante):
+		return visitante.vDeclaracionSentenciasAsignacion(self)
+
 class DeclaracionSentenciasInvocar(Nodo):
 	def __init__(self, Invocar):
 		self.nombre 	= "Sentancia de Invocar"
@@ -186,6 +280,9 @@ class DeclaracionSentenciasInvocar(Nodo):
 		print espacio+self.nombre
 		self.Invocar.imprimir(espacio+' ')
 
+	def aceptar(self, visitante):
+		return visitante.vDeclaracionSentenciasInvocar(self)
+
 class DeclaracionSentenciasRetorno(Nodo):
 	def __init__(self, Expresion):
 		self.nombre    = "Sentancia de Retorno"
@@ -194,6 +291,9 @@ class DeclaracionSentenciasRetorno(Nodo):
 	def imprimir(self,espacio):
 		print espacio+self.nombre
 		self.Expresion.imprimir(espacio+' ')
+
+	def aceptar(self, visitante):
+		return visitante.vDeclaracionSentenciasRetorno(self)
 
 class DeclaracionSentenciasIf(Nodo):
 	def __init__(self, Expresion, DeclaracionSentencias, SentenciaElse):
@@ -208,6 +308,9 @@ class DeclaracionSentenciasIf(Nodo):
 		self.DeclaracionSentencias.imprimir(espacio+' ')
 		self.SentenciaElse.imprimir(espacio+' ')
 
+	def aceptar(self, visitante):
+		return visitante.vDeclaracionSentenciasIf(self)
+
 class DeclaracionSentenciasWhile(Nodo):
 	def __init__(self, Expresion, DeclaracionSentencias):
 		self.nombre                = "Sentancia de While"
@@ -219,6 +322,9 @@ class DeclaracionSentenciasWhile(Nodo):
 		self.Expresion.imprimir(espacio+' ')
 		self.DeclaracionSentencias.imprimir(espacio+' ')
 
+	def aceptar(self, visitante):
+		return visitante.vDeclaracionSentenciasWhile(self)
+
 class DeclaracionSentenciasBreak(Nodo):
 	def __init__(self):
 		self.nombre = "Sentancia de Break"
@@ -226,12 +332,18 @@ class DeclaracionSentenciasBreak(Nodo):
 	def imprimir(self,espacio):
 		print espacio+self.nombre
 
+	def aceptar(self, visitante):
+		return visitante.vDeclaracionSentenciasBreak(self)
+
 class DeclaracionSentenciasContinue(Nodo):
 	def __init__(self):
 		self.nombre = "Sentancia de Continue"
 
 	def imprimir(self,espacio):
 		print espacio+self.nombre
+
+	def aceptar(self, visitante):
+		return visitante.vDeclaracionSentenciasContinue(self)
 
 class Asignacion(Nodo):
 	def __init__(self,Ubicacion,Expresion):
@@ -244,12 +356,18 @@ class Asignacion(Nodo):
 		self.Ubicacion.imprimir(espacio+' ')
 		self.Expresion.imprimir(espacio+' ')
 
+	def aceptar(self, visitante):
+		return visitante.vAsignacion(self)
+
 class UbicacionId(Nodo):
 	def __init__(self,nombre):
 		self.nombre = nombre
 
 	def imprimir(self,espacio):
 		print espacio+"Ubicacion "+self.nombre
+
+	def aceptar(self, visitante):
+		return visitante.vUbicacionId(self)
 
 class UbicacionPuntero(Nodo):
 	def __init__(self,Expresion,nombre):
@@ -259,6 +377,9 @@ class UbicacionPuntero(Nodo):
 	def imprimir(self,espacio):
 		print espacio+"Ubicacion puntero "+self.nombre
 		self.Expresion.imprimir(espacio+' ')
+
+	def aceptar(self, visitante):
+		return visitante.vUbicacionPuntero(self)
 
 class UbicacionExpresion(Nodo):
 	def __init__(self,Expresion1,Expresion2):
@@ -271,6 +392,9 @@ class UbicacionExpresion(Nodo):
 		self.Expresion1.imprimir(espacio+' ')
 		self.Expresion2.imprimir(espacio+' ')
 
+	def aceptar(self, visitante):
+		return visitante.vUbicacionExpresion(self)
+
 class Invocar(Nodo):
 	def __init__(self,Metodo,Parametros):
 		self.nombre     = "Invocar"
@@ -282,12 +406,18 @@ class Invocar(Nodo):
 		self.Metodo.imprimir(espacio+' ')
 		self.Parametros.imprimir(espacio+' ')
 
+	def aceptar(self, visitante):
+		return visitante.vInvocar(self)
+
 class Metodo(Nodo):
 	def __init__(self,nombre):
 		self.nombre     = nombre
 
 	def imprimir(self,espacio):
 		print espacio+self.nombre
+
+	def aceptar(self, visitante):
+		return visitante.vMetodo(self)
 
 class MetodoExpresiones(Nodo):
 	def __init__(self,Expresion, nombre):
@@ -297,6 +427,9 @@ class MetodoExpresiones(Nodo):
 	def imprimir(self,espacio):
 		print espacio+self.nombre
 		self.Expresion.imprimir(espacio+' ')
+
+	def aceptar(self, visitante):
+		return visitante.vMetodoExpresiones(self)
 
 class Parametros(Nodo):
 	def __init__(self,Expresion, ListaParametros):
@@ -309,6 +442,9 @@ class Parametros(Nodo):
 		self.Expresion.imprimir(espacio+' ')
 		self.ListaParametros.imprimir(espacio+' ')
 
+	def aceptar(self, visitante):
+		return visitante.vParametros(self)
+
 class SentenciaElse(Nodo):
 	def __init__(self,DeclaracionSentencias):
 		self.nombre    		       = "Sentencia Else"
@@ -317,6 +453,9 @@ class SentenciaElse(Nodo):
 	def imprimir(self,espacio):
 		print espacio+self.nombre
 		self.DeclaracionSentencias.imprimir(espacio+' ')
+
+	def aceptar(self, visitante):
+		return visitante.vSentenciaElse(self)
 
 class Expresion(Nodo):
 	def __init__(self,TipoExpresion):
@@ -327,12 +466,18 @@ class Expresion(Nodo):
 		print espacio+self.nombre
 		self.TipoExpresion.imprimir(espacio+' ')
 
+	def aceptar(self, visitante):
+		return visitante.vExpresion(self)
+
 class ExpresionInstancia(Nodo):
 	def __init__(self,nombre):
 		self.nombre    	   = nombre
 
 	def imprimir(self,espacio):
 		print espacio+"Instancia a clases"+self.nombre
+
+	def aceptar(self, visitante):
+		return visitante.vExpresionInstancia(self)
 
 class ExpresionArray(Nodo):
 	def __init__(self,Tipo,Expresion):
@@ -345,6 +490,8 @@ class ExpresionArray(Nodo):
 		self.Tipo.imprimir(espacio+' ')
 		self.Expresion.imprimir(espacio+' ')
 
+	def aceptar(self, visitante):
+		return visitante.vExpresionArray(self)
 
 class ExpresionAccesoMetodo(Nodo):
 	def __init__(self,Expresion):
@@ -354,6 +501,9 @@ class ExpresionAccesoMetodo(Nodo):
 	def imprimir(self,espacio):
 		print espacio+self.nombre
 		self.Expresion.imprimir(espacio+' ')
+
+	def aceptar(self, visitante):
+		return visitante.vExpresionAccesoMetodo(self)
 
 class ExpresionBinaria(Nodo):
 	def __init__(self,Expresion1, OperadorBinario, Expresion2):
@@ -368,6 +518,9 @@ class ExpresionBinaria(Nodo):
 		self.OperadorBinario.imprimir(espacio+' ')
 		self.Expresion2.imprimir(espacio+' ')
 
+	def aceptar(self, visitante):
+		return visitante.vExpresionBinaria(self)
+
 class ExpresionUnaria(Nodo):
 	def __init__(self,OperadorUnario, Expresion):
 		self.nombre    		 = "Expresion Unaria"
@@ -379,6 +532,9 @@ class ExpresionUnaria(Nodo):
 		self.OperadorUnario.imprimir(espacio+' ')
 		self.Expresion.imprimir(espacio+' ')
 
+	def aceptar(self, visitante):
+		return visitante.vExpresionUnaria(self)
+
 class ExpresionCompuesta(Nodo):
 	def __init__(self,Expresion):
 		self.nombre    		 = "Expresion Compuesta"
@@ -387,6 +543,9 @@ class ExpresionCompuesta(Nodo):
 	def imprimir(self,espacio):
 		print espacio+self.nombre
 		self.Expresion.imprimir(espacio+' ')
+
+	def aceptar(self, visitante):
+		return visitante.vExpresionCompuesta(self)
 
 class OperadorBinario(Nodo):
 	def __init__(self,Operador):
@@ -397,6 +556,9 @@ class OperadorBinario(Nodo):
 		print espacio+self.nombre
 		print espacio+self.Operador
 
+	def aceptar(self, visitante):
+		return visitante.vOperadorBinario(self)
+
 class OperadorUnario(Nodo):
 	def __init__(self,Operador):
 		self.nombre   = "Operador Unario"
@@ -405,6 +567,9 @@ class OperadorUnario(Nodo):
 	def imprimir(self,espacio):
 		print espacio+self.nombre
 		print espacio+self.Operador
+
+	def aceptar(self, visitante):
+		return visitante.vOperadorUnario(self)
 
 class Literales(Nodo):
 	def __init__(self,Literal):
@@ -415,6 +580,9 @@ class Literales(Nodo):
 		print espacio+self.nombre
 		print espacio+self.Literal
 
+	def aceptar(self, visitante):
+		return visitante.vLiterales(self)
+
 class Tipo(Nodo):
 	def __init__(self,argumento):
 		self.nombre   = "Tipo"
@@ -423,6 +591,9 @@ class Tipo(Nodo):
 	def imprimir(self,espacio):
 		print espacio+self.nombre
 		print espacio+self.argumento
+
+	def aceptar(self, visitante):
+		return visitante.vTipo(self)
 
 class TipoCompuesto(Nodo):
 	def __init__(self,Tipo):
@@ -433,6 +604,9 @@ class TipoCompuesto(Nodo):
 		print espacio+self.nombre
 		self.Tipo.imprimir(espacio+' ')
 
+	def aceptar(self, visitante):
+		return visitante.vTipoCompuesto(self)
+
 class Inicializacion(Nodo):
 	def __init__(self,Expresion):
 		self.nombre   = "Inicializacion"
@@ -442,12 +616,16 @@ class Inicializacion(Nodo):
 		print espacio+self.nombre
 		self.Expresion.imprimir(espacio+' ')
 
-
+	def aceptar(self, visitante):
+		return visitante.vInicializacion(self)
 
 class DeclaracionesNull(Nodo):
 	'''Se envian todas las produccines que producen landa'''
 	def __init__(self):
-		self.name = "Null"
+		self.nombre = "Null"
 
 	def imprimir(self,espacio):
-		print espacio+self.name
+		print espacio+self.nombre
+
+	def aceptar(self, visitante):
+		return visitante.vDeclaracionesNull(self)
